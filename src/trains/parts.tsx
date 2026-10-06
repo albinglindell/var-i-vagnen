@@ -30,7 +30,7 @@ export function Wagon({ x, width, palette, doorCount, boxy }: WagonProps) {
   const bodyTop = 26
   const bodyHeight = h - 58
   const radius = boxy ? 6 : 16
-  const doorWidth = 30
+  const doorWidth = 36
   const doorMargin = width * 0.14
   const usableWidth = width - doorMargin * 2 - doorWidth
   const step = doorCount > 1 ? usableWidth / (doorCount - 1) : 0
@@ -204,10 +204,10 @@ export function DirectionLabels({ width }: { width: number }) {
   const y = TRAIN_HEIGHT + 30
   return (
     <g fontFamily="system-ui, -apple-system, sans-serif" fontWeight={600}>
-      <text x={18} y={y} fontSize={15} fill="#8a8f98" textAnchor="start">
+      <text x={18} y={y} fontSize={18} fill="#8a8f98" textAnchor="start">
         ◂ BAK
       </text>
-      <text x={width - 18} y={y} fontSize={15} fill="#8a8f98" textAnchor="end">
+      <text x={width - 18} y={y} fontSize={18} fill="#8a8f98" textAnchor="end">
         FRAM ▸
       </text>
     </g>

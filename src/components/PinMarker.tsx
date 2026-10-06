@@ -11,11 +11,14 @@ export function PinMarker({ pin, dimensions }: PinMarkerProps) {
   const tipX = STAGE_PADDING.side + pin.x * dimensions.width
   const tipY = STAGE_PADDING.top + pin.y * dimensions.height
 
-  const pinLength = 56
-  const bubbleRadius = 19
+  const pinLength = 64
+  const bubbleRadius = 22
   const headCenterY = tipY - pinLength
   const bubbleCenterY = headCenterY
-  const labelY = bubbleCenterY - 34
+  const labelWidth = 140
+  const labelHeight = 36
+  const labelBottom = bubbleCenterY - bubbleRadius - 3
+  const labelTop = labelBottom - labelHeight
 
   return (
     <g>
@@ -30,23 +33,23 @@ export function PinMarker({ pin, dimensions }: PinMarkerProps) {
         strokeWidth={3}
         strokeLinejoin="round"
       />
-      <circle cx={tipX} cy={bubbleCenterY} r={7} fill="#ffffff" />
+      <circle cx={tipX} cy={bubbleCenterY} r={8} fill="#ffffff" />
       <g>
         <rect
-          x={tipX - 62}
-          y={labelY - 20}
-          width={124}
-          height={32}
-          rx={16}
+          x={tipX - labelWidth / 2}
+          y={labelTop}
+          width={labelWidth}
+          height={labelHeight}
+          rx={18}
           fill="#111317"
         />
         <text
           x={tipX}
-          y={labelY + 1}
+          y={labelTop + 24}
           textAnchor="middle"
           fontFamily="system-ui, -apple-system, sans-serif"
           fontWeight={700}
-          fontSize={15}
+          fontSize={17}
           fill="#ffffff"
         >
           Jag är här

@@ -39,8 +39,8 @@ export const TRAIN_REGISTRY: Record<TrainKind, TrainEntry> = {
 
 /** Headroom reserved around the train illustration inside the stage viewBox, for the pin and direction labels. */
 export const STAGE_PADDING = {
-  side: 80,
-  top: 120,
+  side: 95,
+  top: 135,
   bottom: 50,
 }
 
