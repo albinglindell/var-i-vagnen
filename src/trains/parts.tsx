@@ -4,10 +4,16 @@ export const TRAIN_HEIGHT = 190
 
 export interface Palette {
   body: string
+  /** Front cab / nose shell color, when it differs from the body (e.g. a black driver's cab). */
+  cab?: string
+  roof: string
   accent: string
   window: string
+  /** Front windshield tint, when it differs from the passenger window tint. */
+  windshield?: string
   door: string
-  roof: string
+  /** Optional darker band along the bottom of the body, above the bogies. */
+  skirt?: string
 }
 
 interface WagonProps {
@@ -28,6 +34,7 @@ export function Wagon({ x, width, palette, doorCount, boxy }: WagonProps) {
   const doorMargin = width * 0.14
   const usableWidth = width - doorMargin * 2 - doorWidth
   const step = doorCount > 1 ? usableWidth / (doorCount - 1) : 0
+  const doorBottom = bodyTop + bodyHeight * (palette.skirt ? 0.84 : 0.98)
 
   const doors = Array.from({ length: doorCount }, (_, i) => {
     const doorX = doorMargin + (doorCount > 1 ? i * step : usableWidth / 2)
@@ -37,19 +44,18 @@ export function Wagon({ x, width, palette, doorCount, boxy }: WagonProps) {
           x={doorX}
           y={bodyTop + bodyHeight * 0.3}
           width={doorWidth}
-          height={bodyHeight * 0.68}
+          height={doorBottom - (bodyTop + bodyHeight * 0.3)}
           rx={4}
           fill={palette.door}
-          opacity={0.9}
         />
         <line
           x1={doorX + doorWidth / 2}
           y1={bodyTop + bodyHeight * 0.34}
           x2={doorX + doorWidth / 2}
-          y2={bodyTop + bodyHeight * 0.95}
-          stroke={palette.body}
+          y2={doorBottom - 2}
+          stroke="#000000"
           strokeWidth={1.5}
-          opacity={0.5}
+          opacity={0.25}
         />
       </g>
     )
@@ -83,6 +89,16 @@ export function Wagon({ x, width, palette, doorCount, boxy }: WagonProps) {
         fill={palette.accent}
       />
       {doors}
+      {palette.skirt && (
+        <rect
+          x={0}
+          y={bodyTop + bodyHeight * 0.86}
+          width={width}
+          height={bodyHeight * 0.14}
+          rx={radius * 0.4}
+          fill={palette.skirt}
+        />
+      )}
       <rect x={width * 0.18} y={h - 20} width={46} height={12} rx={5} fill="#1a1a1a" />
       <rect x={width * 0.68} y={h - 20} width={46} height={12} rx={5} fill="#1a1a1a" />
     </g>
@@ -107,6 +123,8 @@ export function NoseCab({ x, width: noseWidth, palette }: { x: number; width: nu
   const h = TRAIN_HEIGHT
   const bodyTop = 26
   const bodyHeight = h - 58
+  const cabColor = palette.cab ?? palette.body
+  const windshieldColor = palette.windshield ?? palette.window
   return (
     <g transform={`translate(${x}, 0)`}>
       <path
@@ -114,15 +132,14 @@ export function NoseCab({ x, width: noseWidth, palette }: { x: number; width: nu
             Q${noseWidth},${bodyTop} ${noseWidth},${bodyTop + bodyHeight * 0.45}
             Q${noseWidth},${bodyTop + bodyHeight} 0,${bodyTop + bodyHeight}
             Z`}
-        fill={palette.body}
+        fill={cabColor}
       />
       <path
         d={`M4,${bodyTop + bodyHeight * 0.18}
             Q${noseWidth - 10},${bodyTop + bodyHeight * 0.2} ${noseWidth - 6},${bodyTop + bodyHeight * 0.42}
             L4,${bodyTop + bodyHeight * 0.5}
             Z`}
-        fill={palette.window}
-        opacity={0.95}
+        fill={windshieldColor}
       />
       <circle cx={noseWidth - 10} cy={bodyTop + bodyHeight * 0.74} r={6} fill="#ffe27a" />
       <rect
